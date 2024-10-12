@@ -19,6 +19,7 @@ return {
         mappings = {
           ['\\'] = 'close_window',
         },
+        width = 30,
       },
       hijack_netrw_behavior = 'open_current',
     },

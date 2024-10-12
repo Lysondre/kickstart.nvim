@@ -84,6 +84,11 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- If I'm in neovide, load the config
+if vim.g.neovide then
+  require 'neovide'
+end
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -178,8 +183,8 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- using T is not the best because its already used for toggle by the default
 -- kickstart settings. I'll eventually move toggle to something else and keep
 -- these ones.
-vim.keymap.set('n', '<leader>tv', ':vsplit term://fish<CR>a', { desc = 'Open [T]erminal [V]ertically' })
-vim.keymap.set('n', '<leader>th', ':split term://fish<CR>a', { desc = 'Open [T]erminal [H]orizontally' })
+vim.keymap.set('n', '<leader>tv', ':vsplit term://zsh<CR>a', { desc = 'Open [T]erminal [V]ertically' })
+vim.keymap.set('n', '<leader>th', ':split term://zsh<CR>a', { desc = 'Open [T]erminal [H]orizontally' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -801,7 +806,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-storm'
+      vim.cmd.colorscheme 'tokyonight-moon'
 
       -- Makes relative line numbers more visible on a transparent background
       vim.api.nvim_set_hl(0, 'LineNrAbove', { fg = '#3f8dba', bold = true })
@@ -812,6 +817,14 @@ require('lazy').setup({
       vim.cmd.hi 'NeoTreeNormal guibg=NONE'
       vim.cmd.hi 'NeoTreeNormalNC guibg=NONE'
     end,
+    -- config = function(self, opts)
+    --   require('tokyonight').setup {
+    --     on_highlights = function(highlights, colors) end,
+    --     on_colors = function(colors)
+    --       colors.bg = '#0C0E11'
+    --     end,
+    --   }
+    -- end,
   },
 
   -- Highlight todo, notes, etc in comments
@@ -864,6 +877,14 @@ require('lazy').setup({
     init = function()
       vim.g.vimtex_view_method = 'zathura'
       vim.g.vimtex_quickfix_open_on_warning = 0
+    end,
+  },
+  {
+    'MysticalDevil/inlay-hints.nvim',
+    event = 'LspAttach',
+    dependencies = { 'neovim/nvim-lspconfig' },
+    config = function()
+      require('inlay-hints').setup()
     end,
   },
   { -- Highlight, edit, and navigate code
